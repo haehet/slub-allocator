@@ -1,0 +1,26 @@
+CXX ?= g++
+CXXFLAGS ?= -O2 -std=c++17 -fpermissive -Wall -Wextra -Wl,-z,stack-size=8388608
+INCLUDES := -Isrc -Isrc/mm/buddy -Isrc/mm/slab -Isrc/mm/phys -Isrc/types -Isrc/util
+
+TARGET ?= prob
+
+SOURCES := \
+	src/main/main.cc \
+	src/mm/slab/slab.cc \
+	src/mm/buddy/buddy.cc \
+	src/mm/buddy/zone.cc \
+	src/mm/phys/phys.cc \
+	src/util/utils.cc
+
+.PHONY: all clean run
+
+all: $(TARGET)
+
+$(TARGET): $(SOURCES)
+	$(CXX) $(CXXFLAGS) $(INCLUDES) $(SOURCES) -o $@
+
+run: $(TARGET)
+	./$(TARGET)
+
+clean:
+	rm -f $(TARGET)
